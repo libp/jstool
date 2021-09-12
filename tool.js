@@ -1,7 +1,7 @@
 /*
- * @Author: your name
+ * @Author: luobupo
  * @Date: 2021-09-12 10:02:34
- * @LastEditTime: 2021-09-12 19:18:56
+ * @LastEditTime: 2021-09-13 07:57:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \jstool\too.js
@@ -21,21 +21,10 @@
 
 console.log(array)
 
-/**输出数组 */
-document.write("<div>输出数组：</div>")
-for (var i = 0; i < array.length; i++) {
-  document.write("<div> 序号："+array[i].id+" URL："+array[i].url+"</div>")
-}
 
-/**按照ID排序 */
-let idList = []
-for (var i = 0; i < array.length; i++) {
-  idList.push(array[i].id)
-}
-idList.sort(function(a,b){
-  return a - b;
-})
-console.log(idList)
+writeHtml(array)
+orderByID(array)
+orderByObjectID(array)
 
 
 
@@ -75,11 +64,37 @@ console.log(idList)
   }
 }
 
-array=　array.sort(compareAsc("id"));  //按照年龄降序排列
-document.write("<div>输出数组：</div>")
-for (var i = 0; i < array.length; i++) {
-  document.write("<div> 序号："+array[i].id+" URL："+array[i].url+"</div>")
+function writeHtml(array) {
+  /**输出数组 */
+  document.write("<div>输出数组：</div>")
+  for (var i = 0; i < array.length; i++) {
+    document.write("<div> 序号："+array[i].id+" URL："+array[i].url+"</div>")
+  }
 }
+
+function orderByID(array){
+  /**按照ID排序 */
+  let idList = []
+  for (var i = 0; i < array.length; i++) {
+    idList.push(array[i].id)
+  }
+  //升序
+  idList.sort(function(a,b){
+    return a - b;
+  })
+  //降序
+  idList.sort((a,b) => (b-a))
+  console.log(idList)
+}
+
+function orderByObjectID(array){
+  array=　array.sort(compareAsc("id"));  //按照年龄降序排列
+  document.write("<div>输出数组：</div>")
+  for (var i = 0; i < array.length; i++) {
+    document.write("<div> 序号："+array[i].id+" URL："+array[i].url+"</div>")
+  }
+}
+
 
 
 
