@@ -22,9 +22,9 @@
 console.log(array)
 
 
-writeHtml(array)
-orderByID(array)
-orderByObjectID(array)
+// writeHtml(array)
+// orderByID(array)
+// orderByObjectID(array)
 
 
 
@@ -97,5 +97,27 @@ function orderByObjectID(array){
 
 
 
+function showDate(){
+  var d = new Date();
+  document.getElementById("time").innerHTML = d.getTime();
+  document.getElementById("year").innerHTML = d.getFullYear();
+  document.getElementById("month").innerHTML = d.getMonth();
+  var months = 
+              [
+              "January", "February", "March", "April", "May", "June", 
+              "July", "August", "September", "October", "November", "December"
+              ];
+  document.getElementById("month2").innerHTML = months[d.getMonth()];
+  document.getElementById("date").innerHTML = d.getDate();
+  document.getElementById("hours").innerHTML = d.getHours();
+  document.getElementById("minutes").innerHTML = d.getMinutes();
+  document.getElementById("seconds").innerHTML = d.getSeconds();
+  document.getElementById("milliseconds").innerHTML = d.getMilliseconds();
+  document.getElementById("week").innerHTML = d.getDay();
+  var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  document.getElementById("week2").innerHTML = days[d.getDay()];
+
+}
 
 
+showDate()

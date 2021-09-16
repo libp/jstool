@@ -31,7 +31,7 @@ var Time = {
         Time.totalMinutes = diff / Time.MINUTES;
         Time.totalHours = diff / Time.HOURS;
         Time.totalDays = diff / Time.DAYS;
-        Time.totalMonths = Time.calcTtotalMonths(Time.totalDays, startDate);
+        Time.totalMonths = Time.calcTotalMonths(Time.totalDays, startDate);
         Time.totalYears = Time.totalMonths / 12;
 
         Time.remainingYears = int (Time.totalDays);

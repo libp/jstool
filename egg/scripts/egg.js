@@ -18,16 +18,19 @@ var Egg = {
     ticker: null,
     startButton: null,
     volume: 1,
-    seqence: [],
+    sequence: [],
     canAlert: true,
     start: function(){
         if (Egg.parseError !== "" && Egg.parseError !== "none") {
-            Egg.processText.html(Egg.defaultText);
+            Egg.progressText.html(Egg.defaultText);
             Egg.updateText(Egg.defaultText);
             return;
         }
-        if (Egg.seqence.length === 0) {
-            Egg.init
+        if (Egg.sequence.length === 0) {
+            Egg.initializeTimer(Egg.startTime, Egg.endTime, Egg.label);
+        } else{
+            var first = Egg.sequence.shift();
+            Egg.initializeTimer(0, first.duration * 1000, first.label)
         }
     },
     initializeTimer : function(startTime, endTime, label) {
@@ -44,7 +47,7 @@ var Egg = {
         }
     },
     update: function(){
-        Time.calcTime(Egg.currDate.getTIme(), Egg.endDate.getTIme());
+        Time.calcTime(Egg.currDate.getTime(), Egg.endDate.getTime());
         Egg.updateParts(Time);
     },
     updateParts: function(Time) {
@@ -126,7 +129,7 @@ var Egg = {
     updateText : function (text) {
         if (text) Egg.progressText.html(text)
     },
-    onTimeComPlete: function () {
+    onTimeComplete: function () {
         var beepFinishedPromise = null;
         Egg.progress = 1;
         Egg.updateProgressBar();
@@ -165,15 +168,34 @@ function getTimeText(time, label) {
 
 // Dom is ready
 $(function(){
-    console.log("getit")
+    $("button").click(function(){
+        console.log($("#start_a_timer").val());
+        var myDate = new Date();
+    });
 	Egg.progress = $("#progress");
     Egg.staticArea = $('#static');
     Egg.staticArea.width($(window).width() - 20);
     Egg.staticArea.height($(window).height() - 20);
     Egg.progressText = $("#progressText");
+    console.log(Egg)
     Egg.startButton = $("#progressText");
     Egg.updateText("");
     Egg.beep = document.getElementById("beepbeep");
 
+    $(window).bind("resize", window_RESIZE)
+
+    if (Egg.beep && Egg.beep.load) {
+        Egg.beep.load();
+    }
+    // Egg.start();
 
 })
+
+//Window Resize
+function window_RESIZE(e){
+    //Move stuff around
+    Egg.staticArea.width($(window).width() - 20);
+    Egg.staticArea.height($(window).height() - 20);
+    Egg.updateText();
+    Egg.updateProgressBar();
+}
