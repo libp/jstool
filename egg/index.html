@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="wrapper">
+
+		<div id="timer">
+			<label for="start_a_timer">Start a timer</label>
+            <input type="text" name="start_a_timer" value="5 minutes" id="start_a_timer"/>
+            <button type="button">Click Me!</button>
+		</div>
+
+	</div>
+
+    <div id="wrapper">
+        <div id="progress"></div>
+        <div id="static"></div>
+    </div>
+    <div id="textWrapper">
+        <h2 id="progressText"></h2>
+    </div>
+
+    <audio id="beepbeep" style="display:none;" preload="auto" autobuffer>
+        <source src="/egg/styles/beepbeep.mp3" type="audio/mpeg" />
+        <source src="/egg/styles/beepbeep.ogg" type="audio/ogg" />
+    </audio>
+</body>
+<script src="/egg/scripts/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/egg/scripts/egg.js"></script>
+</html>
