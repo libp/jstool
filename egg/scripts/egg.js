@@ -181,10 +181,7 @@ function getTimeText(time, label) {
 
 // Dom is ready
 $(function(){
-
-    
-    
-
+    Egg.progressBar = $("#progress");
 	Egg.progress = $("#progress");
     Egg.staticArea = $('#static');
     Egg.staticArea.width($(window).width() - 20);
@@ -201,6 +198,7 @@ $(function(){
         Egg.startTime = (new Date()).getTime();
         var duration = $("#start_a_timer").val() * 1000
         Egg.endTime = Egg.startTime + duration
+        $('#timer').hide();
         Egg.start();
     });
 

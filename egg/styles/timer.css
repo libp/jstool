@@ -58,3 +58,12 @@ h2
    left: 10px;
    background-color: #FFFFFF;
 }
+
+#timer{
+   margin: 0; 
+   padding: 0; 
+   text-align: center;
+   width: 100%;
+   vertical-align: middle;
+   display: table-cell;
+}
