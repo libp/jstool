@@ -18,32 +18,29 @@ var Egg = {
     ticker: null,
     startButton: null,
     volume: 1,
-    sequence: [],
     canAlert: true,
-    start: function(){
+    start: function() {
         if (Egg.parseError !== "" && Egg.parseError !== "none") {
             Egg.progressText.html(Egg.defaultText);
             Egg.updateText(Egg.defaultText);
             return;
         }
-        if (Egg.sequence.length === 0) {
-            Egg.initializeTimer(Egg.startTime, Egg.endTime, Egg.label);
-        } else{
-            var first = Egg.sequence.shift();
-            Egg.initializeTimer(0, first.duration * 1000, first.label)
-        }
+        Egg.initializeTimer(Egg.startTime, Egg.endTime, Egg.label);
     },
     initializeTimer : function(startTime, endTime, label) {
+        console.log(new Date())
         Egg.endTime = endTime;
         Egg.startTime = startTime;
         Egg.label = label;
         Egg.totalTime = Egg.endTime - Egg.startTime;
+        console.log(Egg.totalTime)
         Egg.endDate = new Date(new Date().getTime() + Egg.totalTime);
+        console.log((Egg.endDate).getTime())
         Egg.currDate = new Date();
         Egg.expiredMessage = Egg.expiredMessage || "Time Expired" + (label ? ": " : "!") + label;
         Egg.update();
-        if (!Egg.ticker){
-            Egg.ticker = setInterval(Egg.update,1000 / 4);
+        if (!Egg.ticker) {
+            Egg.ticker = setInterval(Egg.update, 1000 / 4);
         }
     },
     update: function(){
@@ -77,7 +74,7 @@ var Egg = {
 
         if (Time.remainingMonths > 0) {
             clockTime.push(padTimeText(Time.remainingMonths) + "m");
-            monthText = getTimeText(Time.remainingMonths) + "month";
+            monthText = getTimeText(Time.remainingMonths, "month");
         }
 
         if (Time.remainingDays > 0) {
@@ -108,13 +105,13 @@ var Egg = {
         var timeText = slabel + yearText + monthText + 
             dayText + hourText + minText + secText;
 
-        Egg.updateTitle(clockTime.join(":") + (Egg.label && Egg.label != "" ? " : " +Egg.label : "" ));
+        Egg.updateTitle(clockTime.join(":") + (Egg.label && Egg.label !== "" ? " : " + Egg.label : ""));
         Egg.updateText(timeText);
 
         Egg.progress = ((Egg.totalTime - Time.totalMilliseconds) / Egg.totalTime);
         Egg.updateProgressBar();
 
-        Egg.currDate  = new Date();
+        Egg.currDate = new Date();
     },
     updateTitle : function (title) {
         document.title = title + " - E.ggtimer";
@@ -138,20 +135,36 @@ var Egg = {
             Egg.beep.volume = Egg.volume;
             beepFinishedPromise = Egg.beep.play();
         }
+        console.log(beepFinishedPromise)
+        clearInterval(Egg.ticker);
+        Egg.updateTitle(Egg.expiredMessage);
+        Egg.updateText(Egg.expiredMessage);
+        if (beepFinishedPromise && (typeof beepFinishedPromise.then === 'function')) {
+            beepFinishedPromise.then(Egg.showAlert);
+        } else {
+            Egg.showAlert();
+        }
+    },
+    showAlert:function () {
+        if (Egg.canAlert) {
+            alert(Egg.expiredMessage);
+        }
     }
 
 };
-function getSmodifier(value) {
+function getSModifier(value) {
     var mod;
-    if (value == 0){
+    if (value == 0) {
         mod = "";
     }
-    else if (value == 1){
+    else if (value == 1) {
         mod = " ";
     }
     else {
         mod = "s ";
     }
+
+    return mod;
 }
 
 function padTimeText(value) {
@@ -161,33 +174,35 @@ function padTimeText(value) {
 function getTimeText(time, label) {
     var timeText = "";
     if (time > 0) {
-        timeText = time + " " + label + getSmodifier(time);
+        timeText = time + " " + label + getSModifier(time);
     }
     return timeText;
 }
 
 // Dom is ready
 $(function(){
-    $("button").click(function(){
-        console.log($("#start_a_timer").val());
-        var myDate = new Date();
-    });
+
+    
+    
+
 	Egg.progress = $("#progress");
     Egg.staticArea = $('#static');
     Egg.staticArea.width($(window).width() - 20);
     Egg.staticArea.height($(window).height() - 20);
     Egg.progressText = $("#progressText");
-    console.log(Egg)
     Egg.startButton = $("#progressText");
     Egg.updateText("");
     Egg.beep = document.getElementById("beepbeep");
-
     $(window).bind("resize", window_RESIZE)
-
     if (Egg.beep && Egg.beep.load) {
         Egg.beep.load();
     }
-    // Egg.start();
+    $("button").click(function(){
+        Egg.startTime = (new Date()).getTime();
+        var duration = $("#start_a_timer").val() * 1000
+        Egg.endTime = Egg.startTime + duration
+        Egg.start();
+    });
 
 })
 
